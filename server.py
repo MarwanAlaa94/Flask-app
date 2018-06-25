@@ -21,7 +21,7 @@ def upload():
     # this is to verify that folder to upload to exists.
     if os.path.isdir(os.path.join(APP_ROOT, 'files/{}'.format(folder_name))):
         print("folder exist")
-    '''	
+    '''
     target = os.path.join(APP_ROOT, 'files/')
     print(target)
     if not os.path.isdir(target):
@@ -31,12 +31,13 @@ def upload():
         print(upload)
         print("{} is the file name".format(upload.filename))
         filename = upload.filename
-        # This is to verify files are supported
+        print(filename + "ana henaaa")
         ext = os.path.splitext(filename)[1]
         destination = "/".join([target, filename])
         print("Accept incoming file:", filename)
         print("Save it to:", destination)
         upload.save(destination)
+        print(filename + "ana henaaa")
 
     # return send_from_directory("images", filename, as_attachment=True)
     return render_template("complete.html", value=filename)
