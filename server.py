@@ -1,7 +1,7 @@
 import os
-
-from flask import Flask, request, render_template, send_from_directory
-
+import sys
+from flask import Flask, request, render_template, send_from_directory, send_file
+from utils import pre_process, generate_video, clean_data
 __author__ = 'ibininja'
 
 app = Flask(__name__)
@@ -13,6 +13,16 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 def index():
     return render_template("upload.html")
 
+@app.route('/file-downloads/')
+def file_downloads():
+    return render_template('download.html')
+
+@app.route('/return-files/')
+def return_files_tut():
+    target = os.path.join(APP_ROOT, 'files/')
+    for file in os.listdir(target):
+        if file.endswith("out.mp4"):
+            return  send_file(target + file , attachment_filename=file)
 
 @app.route("/upload", methods=["POST"])
 def upload():
@@ -23,6 +33,7 @@ def upload():
         print("folder exist")
     '''
     target = os.path.join(APP_ROOT, 'files/')
+    clean_data(target)
     print(target)
     if not os.path.isdir(target):
         os.mkdir(target)
@@ -33,11 +44,15 @@ def upload():
         filename = upload.filename
         print(filename + "ana henaaa")
         ext = os.path.splitext(filename)[1]
-        destination = "/".join([target, filename])
+        destination = "".join([target, filename])
         print("Accept incoming file:", filename)
         print("Save it to:", destination)
         upload.save(destination)
-        print(filename + "ana henaaa")
+        pre_process(target, destination ,filename)
+        generate_video(target, filename)
+
+
+
 
     # return send_from_directory("images", filename, as_attachment=True)
     return render_template("complete.html", value=filename)
