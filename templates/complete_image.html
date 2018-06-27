@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+<div style="padding-left: 32%">
+<div class="polaroid">
+   <h3> The colored Image: </h3>
+   <img src="{{ user_image }}" style="width:100%">
+   <div class="caption">
+      <p>{{ filename }}</p>
+   </div>
+</div>
+
+<a style="margin-left:15px" class="btn btn-primary" href="/" target="blank">
+  Color again
+</a>
+<div>
+{% endblock %}

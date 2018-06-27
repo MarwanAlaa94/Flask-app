@@ -23,8 +23,6 @@ def generate_frames(target, file_name):
   command = "avconv -i " + input_directory + " -vsync 1 -r 10 -an -y -qscale 1 -s 256x256 " + output_directory + "/%06d.jpg"
   subprocess.call(command, shell=True)
 
-
-
 def generate_video(target, file_name):
   index = file_name.rfind(".")
   input_generic_name = (file_name if index == -1 else file_name[:index+1].replace(".", ""))
